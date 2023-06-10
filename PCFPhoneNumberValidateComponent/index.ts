@@ -4,7 +4,7 @@ import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import { TextField, ITextFieldProps } from '@fluentui/react/lib/TextField';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
+import { isValidNumber, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 
 export class PCFPhoneNumberValidateComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
@@ -51,7 +51,7 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
             value: context.parameters.phoneNumber.raw ? context.parameters.phoneNumber.raw : '',
             errorMessage: '',
             onChange: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
-                const countryCode = context.parameters.countryCode.raw as countryCode | undefined;
+                const countryCode = context.parameters.countryCode.raw as CountryCode | undefined;
                 const phoneNumber = parsePhoneNumberFromString(newValue || '', countryCode || '');
                 
                 if (phoneNumber && isValidNumber(phoneNumber)) {
