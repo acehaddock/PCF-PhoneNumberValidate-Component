@@ -1,6 +1,6 @@
 //import { IInputs, IOutputs } from "pcf-reactor-extension";
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import { useDataset, useControlContext } from "pcf-hooks";
+//import { useDataset, useControlContext } from "pcf-hooks";
 import { TextField, ITextFieldProps } from '@fluentui/react/lib/TextField';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -10,6 +10,8 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
 
     private container: HTMLDivElement;
     private notifyOutputChanged: () => void;
+    private phoneNumber: string;
+    private countryCode: string;
 
     /**
      * Empty constructor.
@@ -49,7 +51,7 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
             value: context.parameters.phoneNumber.raw ? context.parameters.phoneNumber.raw : '',
             errorMessage: '',
             onChange: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
-                const phoneNumber = parsePhoneNumberFromString(newValue, context.parameters.countryCode.raw);
+                const phoneNumber = parsePhoneNumberFromString(newValue || '', context.parameters.countryCode.raw || '');
 
                 if (phoneNumber && isValidNumber(phoneNumber)) {
                     context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
