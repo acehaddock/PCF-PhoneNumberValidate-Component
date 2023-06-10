@@ -10,7 +10,7 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
 
     private container: HTMLDivElement;
     private notifyOutputChanged: () => void;
-    //private phoneNumber: PhoneNumber | undefined;
+   // private phoneNumber: PhoneNumber | undefined;
     //private countryCode: CountryCode | undefined;
 
     /**
@@ -49,19 +49,19 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
 
         const props: ITextFieldProps = {
             placeholder: 'Enter phone number',
-            value: context.parameters.phoneNumber ? (context.parameters.phoneNumber as string) : '',
+            value: context.parameters.phoneNumber.raw ? context.parameters.phoneNumber.raw : '',
             errorMessage: '',
             onChange: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
                 
-                const countryCode = context.parameters.countryCode as CountryCode | undefined;
+                const countryCode = context.parameters.countryCode.raw as CountryCode | undefined;
                 const phoneNumber = parsePhoneNumberFromString(newValue || '', countryCode || undefined);
                 
                 if (phoneNumber && isValidNumber(phoneNumber as any)) {
-                   context.parameters.phoneNumber = phoneNumber.format("E.164");
+                   context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
                     props.errorMessage = '';
                   } else {
-                    context.parameters.phoneNumber = '';
-                    props.errorMessage = `Invalid phone number. Example format: ${context.parameters.countryCode} XXX-XXX-XXXX`;
+                    context.parameters.phoneNumber.raw = '';
+                    props.errorMessage = `Invalid phone number. Example format: ${context.parameters.countryCode.raw} XXX-XXX-XXXX`;
                   }
             
                 this.notifyOutputChanged(); // Notify the framework of output change
@@ -85,8 +85,7 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
      */
     public getOutputs(): IOutputs
     {
-        return {
-        };
+        return {};
     }
 
     /**
