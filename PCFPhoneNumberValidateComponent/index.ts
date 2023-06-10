@@ -4,14 +4,14 @@ import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import { TextField, ITextFieldProps } from '@fluentui/react/lib/TextField';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { isValidNumber, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
+import { isValidNumber, parsePhoneNumberFromString, CountryCode, PhoneNumber } from 'libphonenumber-js';
 
 export class PCFPhoneNumberValidateComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
     private container: HTMLDivElement;
     private notifyOutputChanged: () => void;
-    private phoneNumber: string;
-    private countryCode: string;
+    private phoneNumber: PhoneNumber | undefined;
+    private countryCode: CountryCode | undefined;
 
     /**
      * Empty constructor.
@@ -35,6 +35,7 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
     
         this.container = container;
         this.notifyOutputChanged = notifyOutputChanged;
+
     }
 
 
@@ -58,11 +59,11 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
                 if (phoneNumber && isValidNumber(phoneNumber)) {
                     context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
                     props.errorMessage = '';
-                } else {
+                  } else {
                     context.parameters.phoneNumber.raw = '';
                     props.errorMessage = `Invalid phone number. Example format: ${context.parameters.countryCode.raw} XXX-XXX-XXXX`;
-                }
-
+                  }
+            
                 this.notifyOutputChanged(); // Notify the framework of output change
 
                 ReactDOM.render(
