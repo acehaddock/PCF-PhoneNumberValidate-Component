@@ -49,7 +49,7 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
 
         const props: ITextFieldProps = {
             placeholder: 'Enter phone number',
-            value: context.parameters.phoneNumber ? context.parameters.phoneNumber : '',
+            value: context.parameters.phoneNumber ? (context.parameters.phoneNumber as string) : '',
             errorMessage: '',
             onChange: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
                 
