@@ -10,8 +10,8 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
 
     private container: HTMLDivElement;
     private notifyOutputChanged: () => void;
-    //private phoneNumber: string;
-    //private countryCode: string;
+    private phoneNumber: string;
+    private countryCode: string;
 
     /**
      * Empty constructor.
@@ -51,8 +51,9 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
             value: context.parameters.phoneNumber.raw ? context.parameters.phoneNumber.raw : '',
             errorMessage: '',
             onChange: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+                
                 const countryCode = context.parameters.countryCode.raw as CountryCode | undefined;
-                const phoneNumber = parsePhoneNumberFromString(newValue || '', countryCode || '');
+                const phoneNumber = parsePhoneNumberFromString(newValue || '', countryCode || undefined);
                 
                 if (phoneNumber && isValidNumber(phoneNumber)) {
                     context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
