@@ -1,6 +1,15 @@
+//import { IInputs, IOutputs } from "pcf-reactor-extension";
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
+import { useDataset, useControlContext } from "pcf-hooks";
+import { TextField, ITextFieldProps } from '@fluentui/react/lib/TextField';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 
 export class PCFPhoneNumberValidateComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+
+    private container: HTMLDivElement;
+    private notifyOutputChanged: () => void;
 
     /**
      * Empty constructor.
@@ -21,6 +30,9 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
     public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void
     {
         // Add control initialization code
+    
+        this.container = container;
+        this.notifyOutputChanged = notifyOutputChanged;
     }
 
 
@@ -31,6 +43,35 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
     public updateView(context: ComponentFramework.Context<IInputs>): void
     {
         // Add code to update control view
+
+        const props: ITextFieldProps = {
+            placeholder: 'Enter phone number',
+            value: context.parameters.phoneNumber.raw ? context.parameters.phoneNumber.raw : '',
+            errorMessage: '',
+            onChange: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+                const phoneNumber = parsePhoneNumberFromString(newValue, context.parameters.countryCode.raw);
+
+                if (phoneNumber && isValidNumber(phoneNumber)) {
+                    context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
+                    props.errorMessage = '';
+                } else {
+                    context.parameters.phoneNumber.raw = '';
+                    props.errorMessage = `Invalid phone number. Example format: ${context.parameters.countryCode.raw} XXX-XXX-XXXX`;
+                }
+
+                this.notifyOutputChanged(); // Notify the framework of output change
+
+                ReactDOM.render(
+                    React.createElement(TextField, props),
+                    this.container
+                );
+            }
+        };
+
+        ReactDOM.render(
+            React.createElement(TextField, props),
+            this.container
+        );
     }
 
     /**
@@ -49,5 +90,7 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
     public destroy(): void
     {
         // Add code to cleanup control if necessary
+
+        ReactDOM.unmountComponentAtNode(this.container);
     }
 }
