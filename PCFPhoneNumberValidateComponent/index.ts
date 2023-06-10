@@ -10,8 +10,8 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
 
     private container: HTMLDivElement;
     private notifyOutputChanged: () => void;
-    private phoneNumber: PhoneNumber | undefined;
-    private countryCode: CountryCode | undefined;
+   // private phoneNumber: PhoneNumber | undefined;
+    //private countryCode: CountryCode | undefined;
 
     /**
      * Empty constructor.
@@ -56,8 +56,8 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
                 const countryCode = context.parameters.countryCode.raw as CountryCode | undefined;
                 const phoneNumber = parsePhoneNumberFromString(newValue || '', countryCode || undefined);
                 
-                if (phoneNumber && isValidNumber(phoneNumber)) {
-                    context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
+                if (phoneNumber && isValidNumber(phoneNumber as any)) {
+                   context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
                     props.errorMessage = '';
                   } else {
                     context.parameters.phoneNumber.raw = '';
