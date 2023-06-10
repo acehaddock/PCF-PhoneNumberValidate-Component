@@ -19,7 +19,7 @@
     </external-service-usage>
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
 
-        <property name="phoneNumber" display-name-key="Phone Number" description-key="A phone number" of-type="SingleLine.PhoneNumber" usage="bound" required="true" />    
+        <property name="phoneNumber" display-name-key="Phone Number" description-key="A phone number" of-type="SingleLine.Phone" usage="bound" required="true" />    
         <property name="countryCode" display-name-key="Country Code" description-key="The country code" of-type="SingleLine.Text" usage="bound" required="true" /> 
 
     <!-- <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" /> -->
