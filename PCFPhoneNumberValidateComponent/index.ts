@@ -10,8 +10,8 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
 
     private container: HTMLDivElement;
     private notifyOutputChanged: () => void;
-    private phoneNumber: string;
-    private countryCode: string;
+    //private phoneNumber: string;
+    //private countryCode: string;
 
     /**
      * Empty constructor.
