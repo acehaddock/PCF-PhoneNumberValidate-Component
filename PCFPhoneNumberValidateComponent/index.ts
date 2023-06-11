@@ -51,21 +51,20 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
 
 
         const props: ITextFieldProps = {
-            // placeholder: 'Enter phone number',
-            value: context.parameters.phoneNumber ? context.parameters.phoneNumber.raw || '' : '',
+            placeholder: 'Enter phone number',
+            value: context.parameters.phoneNumber.raw ? context.parameters.phoneNumber.raw : '',
             errorMessage: '',
             onChange: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
                 
-                const countryCode = context.parameters.countryCode ? context.parameters.countryCode.raw as CountryCode | undefined : undefined;
+                const countryCode = context.parameters.countryCode.raw as CountryCode | undefined;
+                const phoneNumber = parsePhoneNumberFromString(newValue || '', countryCode || undefined);
                 
-                const phoneNumber = parsePhoneNumberFromString(newValue || '', countryCode);
-
-                if (phoneNumber && isValidNumber(phoneNumber = any)) {
+                if (phoneNumber && isValidNumber(phoneNumber as any)) {
                    context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
                     props.errorMessage = '';
                   } else {
                     context.parameters.phoneNumber.raw = '';
-                    props.errorMessage = `Invalid phone number. Example format: ${context.parameters.countryCode.raw} XXXXXXXXXX`;
+                    props.errorMessage = `Invalid phone number. Example format: ${context.parameters.countryCode.raw} XXX-XXX-XXXX`;
                   }
             
                 this.notifyOutputChanged(); // Notify the framework of output change
