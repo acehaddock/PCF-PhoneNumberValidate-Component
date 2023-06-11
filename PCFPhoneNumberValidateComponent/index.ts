@@ -60,7 +60,7 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
                 
                 const phoneNumber = parsePhoneNumberFromString(newValue || '', countryCode);
 
-                if (phoneNumber && isValidNumber(phoneNumber)) {
+                if (phoneNumber && isValidNumber(phoneNumber = any)) {
                    context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
                     props.errorMessage = '';
                   } else {
