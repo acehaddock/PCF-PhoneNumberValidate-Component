@@ -63,7 +63,7 @@ export class PCFPhoneNumberValidateComponent implements ComponentFramework.Stand
                    context.parameters.phoneNumber.raw = phoneNumber.format("E.164");
                     props.errorMessage = '';
                   } else {
-                    context.parameters.phoneNumber.raw = '';
+                    //context.parameters.phoneNumber.raw = '';
                     props.errorMessage = `Invalid phone number. Example format: ${context.parameters.countryCode.raw} XXX-XXX-XXXX`;
                   }
             
